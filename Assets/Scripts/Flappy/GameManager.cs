@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get { return gameManager; } }
 
-    private int currentScore = 0;
+    public int currentScore = 0;
 
     UIManager uiManager;
     public UIManager UIManager { get { return uiManager; } }
@@ -22,20 +22,29 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1.0f;
         uiManager.UpdateScore(0);
     }
 
     public void GameOver()
     {
         Debug.Log("Game Over");
-        Time.timeScale = 0f;
+
+        UIManager.SaveScore();
         UIManager.SetRestart();
+
+        Time.timeScale = 0f;   
     }
 
     public void RestartGame()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("MainScene");
     }
 
     public void AddScore(int score)
